@@ -210,12 +210,14 @@ public class beerUserInterface {
 				} else {
 
 					Beer newBeer = new Beer(name, location, type, form, rating);
+					//String user = User.getUserName();
 
 					Connection connection = null;
 					Statement statement = null;
+					String user = User.getUserName();
 					String SQL = "insert into beer values (" + null + ", '" + newBeer.getName() + "' ,'"
 							+ newBeer.getLocation() + "' ,'" + newBeer.getType() + "' ,'" + newBeer.getForm() + "' ,'"
-							+ newBeer.getRating() + "')";
+							+ newBeer.getRating() + "','" + User.getUserName() +  "')";
 
 					try {
 						connection = JDBCMySQLConnection.getConnection();

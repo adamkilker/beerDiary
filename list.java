@@ -20,11 +20,15 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class list {
 
 	private JFrame frame;
 	private JTable tableList;
+	private JTextField txtBarName;
 
 	public JTable getTableList() {
 		return tableList;
@@ -76,7 +80,7 @@ public class list {
 		lblNewLabel.setBounds(136, 30, 335, 31);
 		frame.getContentPane().add(lblNewLabel);
 
-		JButton btnShow = new JButton("Show List");
+		JButton btnShow = new JButton("My List");
 		btnShow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Connection conn = JDBCMySQLConnection.getConnection();
@@ -101,7 +105,7 @@ public class list {
 			}
 		});
 		btnShow.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnShow.setBounds(136, 276, 149, 23);
+		btnShow.setBounds(41, 301, 105, 23);
 		frame.getContentPane().add(btnShow);
 
 		JButton btnClose = new JButton("Close");
@@ -111,9 +115,85 @@ public class list {
 			}
 		});
 		btnClose.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnClose.setBounds(345, 276, 89, 23);
+		btnClose.setBounds(451, 301, 89, 23);
 		frame.getContentPane().add(btnClose);
+		
+		txtBarName = new JTextField();
+		txtBarName.setBounds(171, 269, 124, 20);
+		frame.getContentPane().add(txtBarName);
+		txtBarName.setColumns(10);
+		
+		JComboBox comboType = new JComboBox();
+		comboType.setBackground(Color.WHITE);
+		comboType.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		comboType.setModel(new DefaultComboBoxModel(new String[] {"", "Amber", "Blonde", "Brown", "Cream", "Dark", "IPA", "Light", "Pale", "Pilsner", "Porter", "Red", "Stout", "Wheat"}));
+		comboType.setBounds(307, 270, 124, 20);
+		frame.getContentPane().add(comboType);
 		frame.setBounds(100, 100, 615, 392);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JButton btnSortByBar = new JButton("Sort by Bar");
+		btnSortByBar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String barName = txtBarName.getText();
+				Connection conn = JDBCMySQLConnection.getConnection();
+				String sql = "select name, location, type, form, rating from beer where location ='" + barName + "'";
+
+				try {
+
+					java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+					ResultSet rs = pst.executeQuery();
+					tableList.setModel(DbUtils.resultSetToTableModel(rs));
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} finally {
+					if (conn != null) {
+						try {
+							conn.close();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+				
+			}
+		});
+		btnSortByBar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSortByBar.setBounds(171, 301, 124, 23);
+		frame.getContentPane().add(btnSortByBar);
+		
+		JButton btnSortByType = new JButton("Sort by Type");
+		btnSortByType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String beerType = comboType.getSelectedItem().toString();
+				Connection conn = JDBCMySQLConnection.getConnection();
+				String sql = "select name, location, type, form, rating from beer where type ='" + beerType + "'" ;
+
+				try {
+
+					java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+					ResultSet rs = pst.executeQuery();
+					tableList.setModel(DbUtils.resultSetToTableModel(rs));
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} finally {
+					if (conn != null) {
+						try {
+							conn.close();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+		btnSortByType.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSortByType.setBounds(307, 301, 124, 23);
+		frame.getContentPane().add(btnSortByType);
+		
+
+		
 	}
 }

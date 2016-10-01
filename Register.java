@@ -25,8 +25,8 @@ public class Register {
 	private JTextField txtUserName;
 	private JTextField txtLName;
 	private JTextField txtFName;
-	private JPasswordField passPass1;
-	private JPasswordField passPass2;
+	private JTextField textPass1;
+	private JTextField textPass2;
 
 	/**
 	 * Launch the application.
@@ -109,14 +109,6 @@ public class Register {
 		txtFName.setBounds(220, 255, 86, 20);
 		frame.getContentPane().add(txtFName);
 		txtFName.setColumns(10);
-
-		passPass1 = new JPasswordField();
-		passPass1.setBounds(220, 183, 86, 20);
-		frame.getContentPane().add(passPass1);
-
-		passPass2 = new JPasswordField();
-		passPass2.setBounds(220, 219, 86, 19);
-		frame.getContentPane().add(passPass2);
 		frame.setBounds(100, 100, 450, 431);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -125,22 +117,23 @@ public class Register {
 			public void actionPerformed(ActionEvent e) {
 
 				String user = txtUserName.getText();
-				char[] pass1 = passPass1.getPassword();
-				char[] pass2 = passPass2.getPassword();
+				String pass1 = textPass1.getText();
+				String pass2 = textPass2.getText();
 				String FName = txtFName.getText();
 				String LName = txtLName.getText();
 
-				if (user.isEmpty() == true || pass1.length == 0 || pass2.length == 0 || FName.isEmpty() == true
+				if (user.isEmpty() == true || pass1.isEmpty() == true || pass2.isEmpty() == true || FName.isEmpty() == true
 						|| LName.isEmpty() == true) {
 					JOptionPane.showMessageDialog(frame, "Please complete all fields.", "Warning",
 							JOptionPane.WARNING_MESSAGE);
-				} else if (Arrays.equals(pass1, pass2) == false) {
+				} else if (pass1.equals(pass2)==false) {
 					JOptionPane.showMessageDialog(frame, "Your Password must match.", "Warning",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
+					String securePassword = User.get_SHA_1_SecurePassword(pass1);
 					Connection connection = null;
 					Statement statement = null;
-					String SQL = "insert into users values (" + null + ", '" + user + "' ,'" + pass1 + "' ,'" + FName
+					String SQL = "insert into users values (" + null + ", '" + user + "' ,'" + securePassword + "' ,'" + FName
 							+ "' ,'" + LName + "')";
 
 					try {
@@ -159,8 +152,8 @@ public class Register {
 						}
 					}
 					txtUserName.setText("");
-					passPass1.setText("");
-					passPass2.setText("");
+					textPass1.setText("");
+					textPass2.setText("");
 					txtFName.setText("");
 					txtLName.setText("");
 					// Login nw = new Login();
@@ -181,6 +174,16 @@ public class Register {
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnBack.setBounds(217, 344, 89, 23);
 		frame.getContentPane().add(btnBack);
+		
+		textPass1 = new JTextField();
+		textPass1.setColumns(10);
+		textPass1.setBounds(220, 183, 86, 20);
+		frame.getContentPane().add(textPass1);
+		
+		textPass2 = new JTextField();
+		textPass2.setColumns(10);
+		textPass2.setBounds(220, 218, 86, 20);
+		frame.getContentPane().add(textPass2);
 
 	}
 }

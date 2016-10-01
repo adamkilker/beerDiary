@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.mysql.jdbc.PreparedStatement;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -26,8 +24,7 @@ public class Login {
 
 	private JFrame frame;
 	private JTextField txtUserName;
-	private JTextField txtPass;
-	private JPasswordField passPassword;
+	private JTextField textPassword;
 
 	/**
 	 * 
@@ -86,10 +83,6 @@ public class Login {
 		txtUserName.setBounds(228, 108, 86, 20);
 		frame.getContentPane().add(txtUserName);
 		txtUserName.setColumns(10);
-
-		passPassword = new JPasswordField();
-		passPassword.setBounds(228, 157, 86, 19);
-		frame.getContentPane().add(passPassword);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -118,8 +111,9 @@ public class Login {
 					 **/
 					Connection connection = null;
 					Statement stmt = null;
-					String query = "select * from users where userName ='" + txtUserName.getText() + "'and password= '"
-							+ passPassword.getText() + "'";
+					String query = "select * from users where userName ='" + txtUserName.getText() 
+					//+ "'and password= '"+ passPassword.getPassword().toString() 
+					+ "'";
 
 					try {
 
@@ -128,17 +122,16 @@ public class Login {
 						ResultSet rs = stmt.executeQuery(query);
 
 						int count = 0;
+						String user = "";
+						String pass = "";
+						String fName = "";
+						String lName = "";
 						while (rs.next()) {
 							count++;
-							String user2 = rs.getString(2);
-							// String pass2 = rs.getString(3);
-							String fName = rs.getString(4);
-							String lName = rs.getString(5);
-
-							JOptionPane.showMessageDialog(frame,
-									"user=" + user2 + " fName=" + fName + " lName=" + lName, "Warning",
-									JOptionPane.WARNING_MESSAGE);
-
+							user = rs.getString(2);
+							pass = rs.getString(3);
+							fName = rs.getString(4);
+							lName = rs.getString(5);
 						}
 
 						if (count == 0) {
@@ -146,28 +139,28 @@ public class Login {
 									JOptionPane.WARNING_MESSAGE);
 
 							txtUserName.setText("");
-							passPassword.setText("");
+							textPassword.setText("");
 						} else if (count > 1) {
 							JOptionPane.showMessageDialog(frame, "Error. Duplicate users found.", "Warning",
 									JOptionPane.WARNING_MESSAGE);
 
 							txtUserName.setText("");
-							passPassword.setText("");
+							textPassword.setText("");
 						} else {
-							String user = "";
-							String fName = "";
-							String lName = "";
-
-							while (rs.next()) {
-								user = rs.getString(2);
-								fName = rs.getString(4);
-								lName = rs.getString(5);
+							String pass1 = textPassword.getText();
+							String securePassword = User.get_SHA_1_SecurePassword(pass1);
+							
+							if(pass.equals(securePassword) == false){
+								JOptionPane.showMessageDialog(frame, "Error. Incorrect Password.", "Warning",
+										JOptionPane.WARNING_MESSAGE);
+								txtUserName.setText("");
+								textPassword.setText("");
+							}else{
+								User currentUser = new User(user, fName, lName);
+								beerUserInterface nw = new beerUserInterface();
+								nw.beerUserInterface();
+								frame.dispose();
 							}
-
-							User currentUser = new User(user, fName, lName);
-							beerUserInterface nw = new beerUserInterface();
-							nw.beerUserInterface();
-							frame.dispose();
 						}
 
 					} catch (SQLException e1) {
@@ -188,6 +181,11 @@ public class Login {
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnLogin.setBounds(112, 206, 89, 23);
 		frame.getContentPane().add(btnLogin);
+		
+		textPassword = new JTextField();
+		textPassword.setColumns(10);
+		textPassword.setBounds(228, 157, 86, 20);
+		frame.getContentPane().add(textPassword);
 
 	}
 }
