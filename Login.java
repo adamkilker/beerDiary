@@ -24,7 +24,7 @@ public class Login {
 
 	private JFrame frame;
 	private JTextField txtUserName;
-	private JTextField textPassword;
+	private JPasswordField passPassword;
 
 	/**
 	 * 
@@ -139,22 +139,23 @@ public class Login {
 									JOptionPane.WARNING_MESSAGE);
 
 							txtUserName.setText("");
-							textPassword.setText("");
+							passPassword.setText("");
 						} else if (count > 1) {
 							JOptionPane.showMessageDialog(frame, "Error. Duplicate users found.", "Warning",
 									JOptionPane.WARNING_MESSAGE);
 
 							txtUserName.setText("");
-							textPassword.setText("");
+							passPassword.setText("");
 						} else {
-							String pass1 = textPassword.getText();
-							String securePassword = User.get_SHA_1_SecurePassword(pass1);
+							char[] pass1 = passPassword.getPassword();
+							String newPass = new String(pass1);
+							String securePassword = User.get_SHA_1_SecurePassword(newPass);
 							
 							if(pass.equals(securePassword) == false){
 								JOptionPane.showMessageDialog(frame, "Error. Incorrect Password.", "Warning",
 										JOptionPane.WARNING_MESSAGE);
 								txtUserName.setText("");
-								textPassword.setText("");
+								passPassword.setText("");
 							}else{
 								User currentUser = new User(user, fName, lName);
 								beerUserInterface nw = new beerUserInterface();
@@ -182,10 +183,9 @@ public class Login {
 		btnLogin.setBounds(112, 206, 89, 23);
 		frame.getContentPane().add(btnLogin);
 		
-		textPassword = new JTextField();
-		textPassword.setColumns(10);
-		textPassword.setBounds(228, 157, 86, 20);
-		frame.getContentPane().add(textPassword);
+		passPassword = new JPasswordField();
+		passPassword.setBounds(227, 158, 91, 19);
+		frame.getContentPane().add(passPassword);
 
 	}
 }

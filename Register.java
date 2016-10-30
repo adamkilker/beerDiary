@@ -25,8 +25,8 @@ public class Register {
 	private JTextField txtUserName;
 	private JTextField txtLName;
 	private JTextField txtFName;
-	private JTextField textPass1;
-	private JTextField textPass2;
+	private JPasswordField passPass1;
+	private JPasswordField passPass2;
 
 	/**
 	 * Launch the application.
@@ -117,20 +117,24 @@ public class Register {
 			public void actionPerformed(ActionEvent e) {
 
 				String user = txtUserName.getText();
-				String pass1 = textPass1.getText();
-				String pass2 = textPass2.getText();
+				char[] pass1 = passPass1.getPassword();
+				char[] pass2 = passPass2.getPassword();
 				String FName = txtFName.getText();
 				String LName = txtLName.getText();
+				
+				String newPass1 = new String(pass1);
+				String newPass2 = new String(pass2);
 
-				if (user.isEmpty() == true || pass1.isEmpty() == true || pass2.isEmpty() == true || FName.isEmpty() == true
+				if (user.isEmpty() == true || pass1.length == 0 || pass2.length == 0 || FName.isEmpty() == true
 						|| LName.isEmpty() == true) {
 					JOptionPane.showMessageDialog(frame, "Please complete all fields.", "Warning",
 							JOptionPane.WARNING_MESSAGE);
-				} else if (pass1.equals(pass2)==false) {
+				} else if (newPass1.equals(newPass2)==false) {
 					JOptionPane.showMessageDialog(frame, "Your Password must match.", "Warning",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
-					String securePassword = User.get_SHA_1_SecurePassword(pass1);
+					String newPass = new String(pass1);
+					String securePassword = User.get_SHA_1_SecurePassword(newPass);
 					Connection connection = null;
 					Statement statement = null;
 					String SQL = "insert into users values (" + null + ", '" + user + "' ,'" + securePassword + "' ,'" + FName
@@ -152,8 +156,8 @@ public class Register {
 						}
 					}
 					txtUserName.setText("");
-					textPass1.setText("");
-					textPass2.setText("");
+					passPass1.setText("");
+					passPass2.setText("");
 					txtFName.setText("");
 					txtLName.setText("");
 					// Login nw = new Login();
@@ -175,15 +179,13 @@ public class Register {
 		btnBack.setBounds(217, 344, 89, 23);
 		frame.getContentPane().add(btnBack);
 		
-		textPass1 = new JTextField();
-		textPass1.setColumns(10);
-		textPass1.setBounds(220, 183, 86, 20);
-		frame.getContentPane().add(textPass1);
+		passPass1 = new JPasswordField();
+		passPass1.setBounds(220, 184, 86, 19);
+		frame.getContentPane().add(passPass1);
 		
-		textPass2 = new JTextField();
-		textPass2.setColumns(10);
-		textPass2.setBounds(220, 218, 86, 20);
-		frame.getContentPane().add(textPass2);
+		passPass2 = new JPasswordField();
+		passPass2.setBounds(220, 218, 86, 19);
+		frame.getContentPane().add(passPass2);
 
 	}
 }

@@ -83,23 +83,23 @@ public class beerUserInterface {
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 
-		JLabel lblNewLabel = new JLabel("What's your Beer's Name?");
+		JLabel lblNewLabel = new JLabel("What's the name of your Beer?");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel.setBounds(20, 98, 191, 14);
+		lblNewLabel.setBounds(20, 98, 211, 14);
 		frame.getContentPane().add(lblNewLabel);
 
 		txtName = new JTextField();
-		txtName.setBounds(221, 97, 86, 20);
+		txtName.setBounds(241, 97, 86, 20);
 		frame.getContentPane().add(txtName);
 		txtName.setColumns(100);
 
-		JLabel lblNewLabel_1 = new JLabel("Where'd you drink it?");
+		JLabel lblNewLabel_1 = new JLabel("Where'd you drink this Beer?");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1.setBounds(20, 128, 191, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 
 		txtLocation = new JTextField();
-		txtLocation.setBounds(221, 127, 86, 20);
+		txtLocation.setBounds(241, 127, 86, 20);
 		frame.getContentPane().add(txtLocation);
 		txtLocation.setColumns(100);
 
@@ -112,7 +112,7 @@ public class beerUserInterface {
 		comboType.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		comboType.setModel(new DefaultComboBoxModel(new String[] { "", "Amber", "Blonde", "Brown", "Cream", "Dark",
 				"IPA", "Light", "Pale", "Pilsner", "Porter", "Red", "Stout", "Wheat" }));
-		comboType.setBounds(221, 158, 86, 20);
+		comboType.setBounds(241, 158, 86, 20);
 		frame.getContentPane().add(comboType);
 
 		JLabel lblNewLabel_3 = new JLabel("<html>What form did your Beer<br> come in?</html>");
@@ -122,17 +122,17 @@ public class beerUserInterface {
 
 		JRadioButton rdbtnDraft = new JRadioButton("Draft");
 		rdbtnDraft.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		rdbtnDraft.setBounds(221, 194, 86, 23);
+		rdbtnDraft.setBounds(241, 192, 86, 23);
 		frame.getContentPane().add(rdbtnDraft);
 
 		JRadioButton rdbtnCan = new JRadioButton("Can");
 		rdbtnCan.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		rdbtnCan.setBounds(221, 257, 86, 23);
+		rdbtnCan.setBounds(241, 256, 86, 23);
 		frame.getContentPane().add(rdbtnCan);
 
 		JRadioButton rdbtnBottle = new JRadioButton("Bottle");
 		rdbtnBottle.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		rdbtnBottle.setBounds(221, 226, 86, 23);
+		rdbtnBottle.setBounds(241, 225, 86, 23);
 		frame.getContentPane().add(rdbtnBottle);
 
 		ButtonGroup group = new ButtonGroup();
@@ -142,11 +142,11 @@ public class beerUserInterface {
 
 		JLabel lblNewLabel_5 = new JLabel("Ranking? (1-10)");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_5.setBounds(10, 297, 177, 28);
+		lblNewLabel_5.setBounds(20, 291, 177, 28);
 		frame.getContentPane().add(lblNewLabel_5);
 
 		txtRating = new JTextField();
-		txtRating.setBounds(221, 303, 86, 20);
+		txtRating.setBounds(241, 297, 86, 20);
 		frame.getContentPane().add(txtRating);
 		txtRating.setColumns(10);
 

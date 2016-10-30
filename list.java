@@ -75,16 +75,16 @@ public class list {
 		tableList.setBackground(new Color(255, 255, 153));
 		tableList.setModel(new DefaultTableModel(new Object[][] {}, new String[] {}));
 
-		JLabel lblNewLabel = new JLabel("Here's the Beer's You've Ranked");
+		JLabel lblNewLabel = new JLabel("Beer List");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(136, 30, 335, 31);
+		lblNewLabel.setBounds(252, 11, 124, 31);
 		frame.getContentPane().add(lblNewLabel);
 
 		JButton btnShow = new JButton("My List");
 		btnShow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Connection conn = JDBCMySQLConnection.getConnection();
-				String sql = "select name, location, type, form, rating from beer";
+				String sql = "select name, location, type, form, rating from beer where user ='" + User.getUserName() + "'";;
 
 				try {
 
@@ -192,6 +192,10 @@ public class list {
 		btnSortByType.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnSortByType.setBounds(307, 301, 124, 23);
 		frame.getContentPane().add(btnSortByType);
+		
+		JLabel lblNewLabel_1 = new JLabel("View your list or search other ranked beers by bar or type.");
+		lblNewLabel_1.setBounds(136, 47, 365, 14);
+		frame.getContentPane().add(lblNewLabel_1);
 		
 
 		
